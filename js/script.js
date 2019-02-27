@@ -2,76 +2,76 @@ var CtoFBtn = document.getElementById('CtoF__button');
 var FtoCBtn = document.getElementById('FtoC__button');
 var output = document.getElementById('output__div');
 var output2 = document.getElementById('output__info');
-var state;
 var tempC;
 var tempF;
+var temp;
 
 output.innerHTML = '<br> Click the button to convert temperature' + '<br><br>';
 
-function convertCtoF() {
-  CtoF__button.addEventListener('click', function () {
-    var tempC = window.prompt("Enter temperature in C");
-    if (tempC === "" || tempC === null) {
-      output.innerHTML = ('');
-      output2.innerHTML = ('');
-    } else if (isNaN(tempC)) {
-      output.innerHTML = ('<br> Incorrect value');
-      output2.innerHTML = ('');
-    }
-
-    function stateOfWater() {
-      if (tempC < 0) {
-        state = 'In this temperature water is changing to ICE';
-      } else if (tempC >= 0 && tempC < 100) {
-        state = 'In this temperature water is LIQUID';
-      } else {
-        state = 'In this temperature water is changing to STEAM';
-      }
-    }
-    stateOfWater();
-
-    tempC = parseInt(tempC);
-    if (!isNaN(tempC)) {
-      var tempF = Math.round(tempC * 9 / 5 + 32);
-      output.innerHTML = '<br> It is ' + tempF + ' &#176;' + 'F <br><br>';
-      output2.innerHTML = '<br>' + state + '<br>';
-    }
-  });
+// function that accepts the temperature
+function getTemp() {
+  return temp = window.prompt("Enter value");
 }
-convertCtoF();
 
-
-
-
-function convertFtoC() {
-  FtoC__button.addEventListener('click', function () {
-    var tempF = window.prompt("Enter temperature in F");
-    if (tempF === "" || tempF === null) {
-      output.innerHTML = ('');
-      output2.innerHTML = ('');
-    } else if (isNaN(tempF)) {
-      output.innerHTML = ('<br> Incorrect value');
-      output2.innerHTML = ('');
-    }
-
-    function stateOfWater() {
-      if (tempF < 32) {
-        state = 'In this temperature water is changing to ICE';
-      } else if (tempF >= 32 && tempF < 212) {
-        state = 'In this temperature water is LIQUID';
-      } else {
-        state = 'In this temperature water is changing to STEAM';
-      }
-    }
-    stateOfWater();
-
-
-    tempF = parseInt(tempF);
-    if (!isNaN(tempF)) {
-      var tempC = Math.round((tempF - 32) * 5 / 9);
-      output.innerHTML = '<br> It is ' + tempC + ' &#176;' + 'C <br><br>';
-      output2.innerHTML = '<br>' + state + '<br>';
-    }
-  });
+// conversion function from Celsius to Farenheit
+function cToF(tempC) {
+  tempC = parseInt(tempC);
+  if (!isNaN(tempC)) {
+    return Math.round(tempC * 9 / 5 + 32) + '&#176;F';
+  }
 }
-convertFtoC();
+
+// conrversion function from Farenheit to Celsius
+function fToC(tempF) {
+  tempF = parseInt(tempF);
+  if (!isNaN(tempF)) {
+    return Math.round((tempF - 32) * 5 / 9) + '&#176;C';
+  }
+}
+
+// function showing the state of water
+function stateOfWater(tempC) {
+  if (tempC < 0) {
+    output2.innerHTML = ('<br> In this temperature water is changing to ...<br><br> ICE');
+  } else if (tempC >= 0 && tempC < 100) {
+    output2.innerHTML = ('<br> In this temperature water is ...<br><br> LIQUID');
+  } else {
+    output2.innerHTML = ('<br> In this temperature water is changing to ...<br><br> STEAM');
+  }
+}
+
+// function showing the result of conversion
+function showTemp(temp) {
+  output.innerHTML = '<br> After conversion the temperature is ... <br><br>' + temp;
+}
+
+// execution of the function for the first button
+CtoF__button.addEventListener('click', function () {
+  tempC = getTemp();
+  if (tempC === '' || tempC === null) {
+    output.innerHTML = ('');
+    output2.innerHTML = ('');
+  } else if (isNaN(tempC)) {
+    output.innerHTML = ('<br> Incorrect value');
+    output2.innerHTML = ('');
+  } else {
+    tempF = cToF(tempC);
+    showTemp(tempF);
+    stateOfWater(tempC);
+  }
+});
+
+//ececution of the function for the second button
+FtoC__button.addEventListener('click', function () {
+  tempF = getTemp();
+  if (tempF === '' || tempF === null) {
+    output.innerHTML = ('');
+    output2.innerHTML = ('');
+  } else if (isNaN(tempF)) {
+    output.innerHTML = ('<br> Incorrect value');
+    output2.innerHTML = ('');
+  } else {
+    tempC = fToC(tempF);
+    showTemp(tempC);
+  }
+});
