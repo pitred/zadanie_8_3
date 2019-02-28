@@ -1,23 +1,18 @@
-var CtoFBtn = document.getElementById('CtoF__button');
-var FtoCBtn = document.getElementById('FtoC__button');
-var output = document.getElementById('output__div');
-var output2 = document.getElementById('output__info');
-var tempC;
-var tempF;
-var temp;
-
-output.innerHTML = '<br> Click the button to convert temperature' + '<br><br>';
+var CtoFBtn = document.getElementById("CtoF__button");
+var FtoCBtn = document.getElementById("FtoC__button");
+var outputCtoF = document.getElementById("output-temp");
+var outputFtoC = document.getElementById("output-water");
 
 // function that accepts the temperature
 function getTemp() {
-  return temp = window.prompt("Enter value");
+  return window.prompt("Enter value");
 }
 
 // conversion function from Celsius to Farenheit
 function cToF(tempC) {
   tempC = parseInt(tempC);
   if (!isNaN(tempC)) {
-    return Math.round(tempC * 9 / 5 + 32) + '&#176;F';
+    return Math.round((tempC * 9) / 5 + 32) + "&#176;F";
   }
 }
 
@@ -25,53 +20,54 @@ function cToF(tempC) {
 function fToC(tempF) {
   tempF = parseInt(tempF);
   if (!isNaN(tempF)) {
-    return Math.round((tempF - 32) * 5 / 9) + '&#176;C';
+    return Math.round(((tempF - 32) * 5) / 9) + "&#176;C";
   }
 }
 
 // function showing the state of water
 function stateOfWater(tempC) {
-  if (tempC < 0) {
-    output2.innerHTML = ('<br> In this temperature water is changing to ...<br><br> ICE');
-  } else if (tempC >= 0 && tempC < 100) {
-    output2.innerHTML = ('<br> In this temperature water is ...<br><br> LIQUID');
-  } else {
-    output2.innerHTML = ('<br> In this temperature water is changing to ...<br><br> STEAM');
-  }
+  if (tempC < 0) return "<br> In this temperature water is changing to ...<br><br> ICE";
+  else if (tempC >= 0 && tempC < 100) return "<br> In this temperature water is ...<br><br> LIQUID";
+  else return "<br> In this temperature water is changing to ...<br><br> STEAM";
 }
 
 // function showing the result of conversion
-function showTemp(temp) {
-  output.innerHTML = '<br> After conversion the temperature is ... <br><br>' + temp;
+function showTemp(temp, elem) {
+  elem.innerHTML = "<br> After conversion the temperature is ... <br><br>" + temp;
+}
+// function showing info text
+function showText(text, elem) {
+  elem.innerHTML = '<br> ' + text + '<br><br>' + elem.innerHTML;
 }
 
 // execution of the function for the first button
-CtoF__button.addEventListener('click', function () {
-  tempC = getTemp();
-  if (tempC === '' || tempC === null) {
-    output.innerHTML = ('');
-    output2.innerHTML = ('');
+CtoFBtn.addEventListener("click", function () {
+  var tempC = getTemp();
+  if (tempC === "" || tempC === null) {
+    showText('', outputCtoF);
+    showText('', outputFtoC);
   } else if (isNaN(tempC)) {
-    output.innerHTML = ('<br> Incorrect value');
-    output2.innerHTML = ('');
+    showText('Incorrect value', outputCtoF);
+    showText('', outputFtoC);
   } else {
-    tempF = cToF(tempC);
-    showTemp(tempF);
-    stateOfWater(tempC);
+    var tempF = cToF(tempC);
+    showTemp(tempF, outputCtoF);
+    showText(stateOfWater(tempC), outputCtoF);
   }
 });
 
 //ececution of the function for the second button
-FtoC__button.addEventListener('click', function () {
-  tempF = getTemp();
-  if (tempF === '' || tempF === null) {
-    output.innerHTML = ('');
-    output2.innerHTML = ('');
+FtoCBtn.addEventListener("click", function () {
+  var tempF = getTemp();
+  if (tempF === "" || tempF === null) {
+    showText('', outputFtoC);
+    showText('', outputCtoF);
   } else if (isNaN(tempF)) {
-    output.innerHTML = ('<br> Incorrect value');
-    output2.innerHTML = ('');
+    showText('Incorrect value', outputFtoC);
+    showText('', outputCtoF);
   } else {
-    tempC = fToC(tempF);
-    showTemp(tempC);
+    var tempC = fToC(tempF);
+    showTemp(tempC, outputFtoC);
+    showText(stateOfWater(tempC), outputFtoC);
   }
 });
